@@ -205,7 +205,7 @@ for field in plot_fields:
     plt.xticks(pos + (n*barwidth/2),
                [ pretty_mgn_names[k] for k in keys ])
     plt.yticks(ax.get_yticks(),
-               [ ("%d%s" % ((10**y if y != 0 else 0), units[field]))
+               [ ("%d%s" % ((10**y if y != 0 else 0), units[field])) if y == int(y) else ''
                  for y in ax.get_yticks() ])
 
     if field != 'MAXMEM(KB)':
