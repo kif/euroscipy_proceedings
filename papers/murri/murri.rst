@@ -71,7 +71,8 @@ several homology theories but they all share this computational
 procedure outline: given a vector space of (generalized) *simplex
 chains* and a *boundary operator*, which is by definition a linear
 operator `D`:math: such that `D^2=0`:math:, the homology space is by
-definition `\mathop{\textrm{Ker }} D / \mathop{\textrm{Im }} D`:math:.  In graph homology, however, it is the
+definition `\mathop{\textrm{Ker}} D / \mathop{\textrm{Im}} D`:math:.
+In graph homology, however, it is the
 computation of these simplices and boundary that takes up the largest
 fraction of compute time: the simplex chains are defined as formal
 linear combinations of graphs, and the boundary operator maps a graph
@@ -284,10 +285,10 @@ We have no explanation for the large memory consumption of Nuitka.
 
 
 .. figure:: CPU_time_of_Python_runtimes_M04.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total CPU time used by each runtime on the
    `M_{0,4}`:math: test case.  The `x`:math:-axis shows
@@ -295,10 +296,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`cpu-M04`
 
 .. figure:: CPU_time_of_Python_runtimes_M05.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total CPU time used by each runtime on the
    `M_{0,5}`:math: test case.  The `x`:math:-axis shows
@@ -306,10 +307,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`cpu-M05`
 
 .. figure:: CPU_time_of_Python_runtimes_M13.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total CPU time used by each runtime on the
    `M_{1,3}`:math: test case.  The `x`:math:-axis shows
@@ -317,10 +318,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`cpu-M13`
 
 .. figure:: CPU_time_of_Python_runtimes_M21.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total CPU time used by each runtime on the
    `M_{2,1}`:math: test case.  The `x`:math:-axis shows
@@ -329,10 +330,10 @@ We have no explanation for the large memory consumption of Nuitka.
 
 
 .. figure:: Max_used_memory_of_Python_runtimes_M04.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total RAM usage by each runtime on the
    `M_{0,4}`:math: test case.  The `x`:math:-axis shows
@@ -340,10 +341,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`mem-M04`
 
 .. figure:: Max_used_memory_of_Python_runtimes_M05.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total RAM usage by each runtime on the
    `M_{0,5}`:math: test case.  The `x`:math:-axis shows
@@ -351,10 +352,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`mem-M05`
 
 .. figure:: Max_used_memory_of_Python_runtimes_M13.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total RAM usage by each runtime on the
    `M_{1,3}`:math: test case.  The `x`:math:-axis shows
@@ -362,10 +363,10 @@ We have no explanation for the large memory consumption of Nuitka.
    :label:`mem-M13`
 
 .. figure:: Max_used_memory_of_Python_runtimes_M21.pdf
-   :figclass: tbp
+   :figclass: p
    :figwidth: 100%
-   :scale:    40%
-   :align: left
+   :scale:    31%
+   :align: center
 
    Comparison of the total RAM usage by each runtime on the
    `M_{2,1}`:math: test case.  The `x`:math:-axis shows

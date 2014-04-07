@@ -148,14 +148,14 @@ plot_field_names = [ pretty_field_names[field] for field in plot_fields ]
 # enlarge default font size
 plt.rc('font', size=16.)
 
-def show_or_save(title, figsize=figsize):
+def show_or_save(title, width, height):
     if show:
         plt.show()
     else:
         filename = title.replace(' ', '_').replace('(', '').replace(')', '') + '.' + format
         with open(filename, 'w') as output:
             fig = plt.gcf()
-            fig.set_size_inches(figsize[0],figsize[1])
+            fig.set_size_inches(width, height)
             fig.savefig(output, format=format, dpi=600)
 
 
@@ -210,13 +210,13 @@ for field in plot_fields:
     plt.xticks(pos + (n*barwidth/2),
                [ pretty_mgn_names[k] for k in keys ])
     plt.yticks(ax.get_yticks(),
-               [ ("%d%s" % ((10**y if y != 0 else 0), units[field]))
+               [ ("%d%s" % ((10**y if y != 0 else 0), units[field])) if y == int(y) else ''
                  for y in ax.get_yticks() ])
 
     if field != 'MAXMEM(KB)':
         plt.legend(loc='upper left')
 
-    show_or_save(title, synopsis_figsize)
+    show_or_save(title, 19., 6.)
 
 
 # remaining figures
@@ -286,4 +286,4 @@ for mgn in mgns:
                      ha=align, va='center',
                      color=clr, weight='bold')
 
-        show_or_save(title)
+        show_or_save(title, 14.0, 5.0)
