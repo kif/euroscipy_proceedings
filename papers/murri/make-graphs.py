@@ -144,14 +144,14 @@ plot_field_names = [ pretty_field_names[field] for field in plot_fields ]
 # enlarge default font size
 plt.rc('font', size=16.)
 
-def show_or_save(title):
+def show_or_save(title, width, height):
     if show:
         plt.show()
     else:
         filename = title.replace(' ', '_').replace('(', '').replace(')', '') + '.' + format
         with open(filename, 'w') as output:
             fig = plt.gcf()
-            fig.set_size_inches(19., 6.)
+            fig.set_size_inches(width, height)
             fig.savefig(output, format=format, dpi=600)
 
 
@@ -211,7 +211,7 @@ for field in plot_fields:
     if field != 'MAXMEM(KB)':
         plt.legend(loc='upper left')
 
-    show_or_save(title)
+    show_or_save(title, 19., 6.)
 
 
 # remaining figures
@@ -276,4 +276,4 @@ for mgn in mgns:
                      ha=align, va='center',
                      color=clr, weight='bold')
 
-        show_or_save(title)
+        show_or_save(title, 14.0, 5.0)
