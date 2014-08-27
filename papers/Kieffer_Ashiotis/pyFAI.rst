@@ -420,7 +420,7 @@ Choice of the algorithm
 The LUT contains pairs of an index and a coefficient, hence it is an *array of struct* pattern which is known to make best use of CPU caches.
 On the contrary, the CSR sparse matrix representation is a *struct of array* which is better adapted to GPU.
 As we can see in figure :ref:`serial-lut-csr`, both LUT and CSR outperform the serial code, and both behave similarly:
-the penalty of the *array of struct* in CSR is counter-balanced by the smaller chunk of data to be transferred from central memory to CPU
+the penalty of the *array of struct* in CSR is counter-balanced by the smaller chunk of data to be transferred from central memory to CPU.
 
 .. figure:: serial_lut_csr.png
 
