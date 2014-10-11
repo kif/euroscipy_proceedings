@@ -51,7 +51,7 @@ In section 6, serial and parallel implementations using [OpenMP]_ and [OpenCL]_ 
 Description of the experiment
 =============================
 
-X-rays are electromagnetic waves, similar to visble light, except for their wavelengths which are much shorter,
+X-rays are electromagnetic waves, similar to visible light, except for their wavelengths which are much shorter,
 typically of the size of inter-atomic distances, making them a perfect probe to analyse atomic and molecular structures.
 X-rays can be elastically scattered (i.e. re-emitted with the same energy) by the electron cloud surrounding atoms.
 When atoms are arranged periodically, as in a crystal, scattered X-rays interfere in a constructive way
@@ -176,7 +176,7 @@ Apparently the use of atomic operation is still not yet possible in [Cython]_ (s
 Multi-threaded histogramming was made possible by having several threads running simultaneously, each working on a separate histogram,
 which implies the allocation of much more memory for output arrays.
 
-.. table:: Azimuthal integration time for a 4 Mpix image measured on two Xeon E5520 (2x 4-core hyperthreaded at 2.2 GHz) :label:`Cython`
+.. table:: Azimuthal integration time for a 4 Mpix image measured on two Xeon E5520 (2x 4-core hyper-threaded at 2.2 GHz) :label:`Cython`
 
    +----------------+----------------+
    | Implement.     | Exec. time (ms)|
@@ -197,7 +197,7 @@ which implies the allocation of much more memory for output arrays.
    +----------------+----------------+
 
 
-The gains in performance obtained by this method :ref:`Cython` were minor, especially when using more than 2 threads,
+The gains in performance obtained by this method (see table :ref:`Cython`) were minor, especially when using more than 2 threads,
 illustrating the limits of the paralellisation scheme.
 The only way to go faster is to start thinking in parallel from the beginning
 and re-design the algorithm so that it works natively with lots of threads.
@@ -266,14 +266,14 @@ Taking the absolute value of the sum of all these integrals
 will yield the area of the pixel segment.
 Now, the contributions to the histograms are calculated using these areas.
 The difficult part here was the definition of the limits of each of the integrals in a
-way that wouldn’t hinder the performance by adding many conditionals.
+way that would not hinder the performance by adding many conditionals.
 
 Discussion on the statistics
 ----------------------------
 
 Using either of the two pixel splitting algorithms results in some side effects that the user should be aware of:
 The fact that pixels contributing to neighbouring bins in the histogram creates some cross-correlation between those bins,
-affecting, this way, the statistics of the results in a potentially unwanted manner.
+affecting, this way, the statistics of the results in a potentially unwanted manner [Stat]_.
 
 
 More parallelisation
@@ -289,7 +289,7 @@ without relying on pre-fetcher and other commodities offered by normal processor
 
 Typical GPUs have tens (to hundreds) of compute units able to schedule and run
 dozens of threads simultaneously (in a Single Instruction Multiple Data way).
-OpenCL allows the execution of the same code on processors, graphics cards or accelerators :ref:`Devices`
+OpenCL allows the execution of the same code on processors, graphics cards or accelerators (see table :ref:`Devices`)
 but the memory access pattern is important in order to make the best use of them.
 Finally, OpenCL uses just-in-time (JIT) compilation, which looks very much
 like Python interpreted code when interfaced with [PyOpenCL]_
@@ -410,8 +410,9 @@ All benchmarks were performed using the same bounding box pixel splitting scheme
 Execution speed has been measured using the *timeit* module, averaged over 10 iterations (best of 3).
 The processing is performed on 1, 2, 4, 6, 12 and 16 Mpixel images, with pixel ranges of either 16 or 32 bits (int or uint), taken from actual diffraction experiments, which are part of the pyFAI test suite.
 
-The data come from various detectors and differ in the geometry used as well as in the input data type,
-which explains why processing the 16 Mpixel image is faster than the 12 Mpixel image in this benchmark.
+One small note on the benchmarks that follow. The casting for the 12 Mpixel image was done by one thread on the CPU.
+That is why the processing time of the 16 Mpixel image appears to be shorter than that of the 12 Mpixel one.
+
 
 Choice of the algorithm
 -----------------------
@@ -482,26 +483,26 @@ on the last line of the code snippet described in section :ref:`use`.
 One may wonder what is the actual time spent in which part of the OpenCL code and how much is the Python overhead.
 This analysis has been done using the profiling tools of OpenCL which measured the execution of every action put in queue.
 To be able to perform the azimuthal integration, the image is first transfered to the device (GPU), then casted from integer to float.
-All pixel-wise correction (dark current subtraction, flat field normalization, solid-angle and polarization factor correction) are applied in a single pass.
-All output area needs to be cleaned, this is also performed by a separate kernel (memset) before the actual sparse-matrix-dense-vector multiplication.
+All pixel-wise correction (dark current subtraction, flat field normalization, solid-angle and polarization factor correction) are applied in a single pass over each pixel of the image.
+Output arrays are initialised to zero, by a separate kernel (memset) before the actual sparse-matrix-dense-vector multiplication.
 Finally the three output buffers are retrieved from the device.
 
 Table :ref:`profile` shows the execution time measured on the GeForce Titan (controlled by a pair of Xeon 5520).
-The first entry in the table is the total exeution time at the Python level, as measured by *timeit*: 2 ms,
-while the second is the sum of all execution times measured by the OpenCL profiler: 1.4 ms, which highlights how little the Python overhead can be (<40%).
-The most consuming part of the processing is by far the memory transfer of the image (H->D meaning Host to Device, 0.8ms).
+The first entry in the table is the total execution time at the Python level, as measured by *timeit*: 2 ms,
+while the second is the sum of all of the execution times measured by the OpenCL profiler: 1.4 ms, which highlights how little the Python overhead can be (<40%).
+The most time-consuming part of the whole process is by far the memory transfer of the image (H->D meaning Host to Device, 0.8ms).
 All vendors are currently working on an unified memory space, which will be available for OpenCL 2.0, which will reduce the time spent in transfers and simplify programming.
-Finally the azimuthal integration represents only 0.4 ms so 20% of the time spent in total.
-If one focuses only on the timing of the integration kernel, then one could wrongly conclude that pyFAI is able to sustain the speed of the fastest detectors.
-For example, the 2 ms of processing time for a 1 Mpixel image of 32bit integers, corresponds to a processing rate of 2 GB/s, while the fastest hard-drives (actually Solid Stat Disks)
-are currently only able to provide half of it.
+Finally the azimuthal integration takes up only 0.4 ms, that is, 20% of the total run time.
+If one focuses only on the timing of the integration kernel, then he would wrongly conclude that pyFAI is able to match the speed of the fastest detectors.
+For example, the 2 ms of processing time for a 1 Mpixel image of 32 bit integers, correspond to a processing rate of 2 GB/s, while our fastest storage solutions (solid-state drives)
+are currently only able to provide half of that.
 
-.. table:: OpenCl profiling of the integration of a Pilatus 1M image (981x1043 pixels, each being a signed 32 bits integer) on a GeForce Titan running on a dual Xeon 5520. :label:`profile`
+.. table:: OpenCl profiling of the integration of a Pilatus 1M image (981x1043 pixels of signed 32 bits integers) on a GeForce Titan, running on a dual Xeon 5520. :label:`profile`
 
          +-----------------+---------+
          |   Python  total | 2.030ms |
          +-----------------+---------+
-         |          openCL | 1.445ms |
+         |          OpenCL | 1.445ms |
          +-----------------+---------+
          |      H->D image | 0.762ms |
          +-----------------+---------+
@@ -614,3 +615,6 @@ References
 .. [SPD] P. Bösecke.
          *Reduction of two-dimensional small- and wide-angle X-ray scattering data*,
          J. Appl. Cryst., 40:s423–s427, 2007.
+.. [Stat] X. Yang, P. Juhás and S. J. L. Billinge. 
+          *On the estimation of statistical uncertainties on powder diffraction and small-angle scattering data from two-dimensional X-ray detectors*,
+          J. Appl. Cryst., 47:1273-1283, 2014.
